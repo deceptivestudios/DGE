@@ -1,0 +1,5 @@
+INDEX VERSION 1.126+D:\Projects\DGE\.metadata\.plugins\org.eclipse.jdt.core
+525574804.index
+1854023367.index
+1988114976.index
+930901502.index

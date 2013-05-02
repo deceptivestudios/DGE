@@ -1,0 +1,9 @@
+[DGESTRINGTABLE]
+
+Chapter1Title = "Once Upon A Time"
+Chapter1Story =
+  "Once upon a time in a deep deep forest there was a hero
+   of unbelievable strength. His glory spread around the
+   world faster than light."
+   
+; This is a comment

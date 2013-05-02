@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="build.xml" key="antview.lastSearchString"/>
+	<item value="false" key="antview.includeErrorSearchResults"/>
+	<item value="false" key="AntPropertiesFileSelectionDialog.showAll"/>
+	<item value="" key="antview.lastSearchScope"/>
+	<item value="/DGE" key="AntPropertiesFileSelectionDialog.lastContainer"/>
+	<item value="false" key="antview.useWorkingSetSearchScope"/>
+	<section name="SetTargetsDialogSettings">
+		<item value="374" key="DIALOG_WIDTH"/>
+		<item value="67" key="DIALOG_Y_ORIGIN"/>
+		<item value="213" key="DIALOG_X_ORIGIN"/>
+		<item value="380" key="DIALOG_HEIGHT"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+	</section>
+</section>

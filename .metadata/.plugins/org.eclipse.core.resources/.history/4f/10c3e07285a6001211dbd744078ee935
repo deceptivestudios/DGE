@@ -1,0 +1,293 @@
+
+package com.deceptivestudios.balance;
+
+import com.deceptivestudios.engine.DGE;
+import com.deceptivestudios.engine.helper.DGEFont;
+import com.deceptivestudios.engine.helper.DGESprite;
+import com.deceptivestudios.engine.helper.DGEVector;
+import com.deceptivestudios.engine.physics.DGEPhysicsSprite;
+import com.deceptivestudios.engine.state.DGEState;
+import com.deceptivestudios.engine.state.DGEStateManager;
+
+public class PhysicsState extends DGEState 
+{
+	private float _width, _height;
+	private float _timeLeft, _bonusTime;
+	private boolean _inside;
+	private int _score, _topScore;
+	
+	private float _scale, _counter;
+	private float _tx, _ty;
+	private float _countDown = 2f;
+	private float _gravity = -10f;
+
+	private int _texture;
+	private int _sound;
+	private DGESprite _sprite;
+	private DGEPhysicsSprite _psprite;
+	private DGEFont _font;
+	private boolean _physics = false;
+	
+	@Override
+	public boolean Initialize(String data) 
+	{
+		_dge.Physics_Initialize(0, 0, 32, false);
+
+		_texture = _dge.Texture_Load("particles.png");
+		
+		if (_texture == 0)
+			return false;
+		
+		_sound = _dge.Effect_Load("bling.wav");
+		
+		if (_sound == 0)
+			return false;
+		
+		_font = new DGEFont("handelgothic.fnt");
+		
+		if (!_font.Validate())
+			return false;
+		
+		_width = (Integer) _dge.System_GetState(DGE.DGE_SCREENWIDTH);
+		_height = (Integer) _dge.System_GetState(DGE.DGE_SCREENHEIGHT);
+
+		_dge.Physics_CreateFixedBody(ShapeType.POLYGON, _width / 2, -16, _width + 32, 32);
+		_dge.Physics_CreateFixedBody(ShapeType.POLYGON, _width / 2, _height + 16, _width + 32, 32);
+		_dge.Physics_CreateFixedBody(ShapeType.POLYGON, -16, _height / 2, 32, _height + 32);
+		_dge.Physics_CreateFixedBody(ShapeType.POLYGON, _width + 16, _height / 2, 32, _height + 32);
+
+		_sprite = new DGESprite(_texture, 96, 64, 32, 32);
+		_sprite.SetHotSpot(16, 16);
+		
+		_psprite = new DGEPhysicsSprite(ShapeType.CIRCLE, _sprite, _width / 2f, _height / 2f, 0.5f, 0f);
+		
+		_topScore = _dge.Ini_GetInt("Score", "Top", 0);
+		
+		Reset();
+		
+		return true;
+	}
+
+	@Override
+	public boolean Render() 
+	{
+		_dge.Gfx_BeginScene();
+		_dge.Gfx_Clear(0, 0, 0, 1);
+		
+		if (_inside)
+		{
+			float x = (_tx < _width / 2) ? _tx + (17 * _scale) : _tx - (17 * _scale);
+			
+			_font.SetColor(0, 0.85f, 0, 1);
+			_font.Render(x, _ty, ((_tx < _width / 2) ? DGEFont.Left : DGEFont.Right) | DGEFont.Middle, "%.1f secs", (_countDown - _counter));
+			
+			_sprite.SetColor(0, 0.85f, 0, 1);
+		}
+		else
+		{
+			_sprite.SetColor(1, 0, 0, 1);
+		}
+		
+		_sprite.RenderEx(_tx, _ty, 0, _scale);
+		
+		_psprite.SetColor(1, 1, 1, 1);
+		_psprite.Render();
+		
+		_font.SetColor(1, 1, 1, 1);
+		_font.Render(5, 5, DGEFont.Left, "Score: %d", _score);
+		
+		if (_timeLeft <= 3)
+			_font.SetColor(1, 0, 0, 1);
+		_font.Render(5, 35, DGEFont.Left, "Time Left: %.1f secs", Math.max(_timeLeft, 0));
+		
+		if (_topScore != 0)
+		{
+			if (_score == _topScore)
+				_font.SetColor(0, 0.85f, 0, 1);
+			else
+				_font.SetColor(1, 1, 1, 1);
+				
+			_font.Render(_width - 5, 5, DGEFont.Right, "High Score: %d", _topScore);
+		}
+		
+		BonusTime current = _first;
+		
+		while (current != null)
+		{
+			_font.SetColor(current.r, current.g, current.b, current.a);
+			_font.Render(current.x, current.y, current.align, "+%.1f secs", current.bonus);
+			
+			current = current.next;
+		}
+		
+		if (_physics)
+			_dge.Physics_Render(DGE.DGE_PHYSICS_ALL);
+		
+		_dge.Gfx_EndScene();
+
+		return true;
+	}
+
+	@Override
+	public boolean Update(float delta) 
+	{
+		_dge.Physics_Update(delta);
+		
+		if (_dge.Input_Back())
+		{
+			DGEStateManager.GetManager().PopState();
+			return true;
+		}
+		
+		if (_dge.Input_GetDoubleTap())
+			_physics = !_physics;
+		
+		if (_timeLeft > 0)
+		{
+			_timeLeft -= delta;
+		}
+		else
+		{
+			DGEStateManager.GetManager().PushState("Gameover", String.format("%d", _score));
+			return true;
+		}
+		
+		if (_score > _topScore)
+		{
+			_topScore = _score;
+			_dge.Ini_SetInt("Score", "Top", _topScore);
+		}
+		
+		float[] tilt = _dge.Input_GetTilt();
+		
+		if (tilt != null)
+		{
+			float x = _gravity * tilt[1];
+			float y = _gravity * tilt[2];
+			
+			_dge.Physics_SetGravity(x, y);
+		}
+		
+		UpdateBonus(delta);
+		
+		if (IsInside())
+		{
+			_inside = true;
+			_counter += delta;
+			
+			if (_counter > _countDown)
+			{
+				float x = (_tx < _width / 2) ? _tx + (17 * _scale) : _tx - (17 * _scale);
+				AddBonus(x, _ty, _bonusTime, ((_tx < _width / 2) ? DGEFont.Left : DGEFont.Right) | DGEFont.Middle);
+				
+				_dge.Effect_Play(_sound);
+				
+				_counter = 0;
+				_score++;
+				_timeLeft += _bonusTime;
+				
+				if (_scale >= 1.4f)
+					_scale -= 0.2f;
+				
+				if (_bonusTime > 1)
+					_bonusTime -= 0.3f;
+				
+				_inside = false;
+				Reposition();
+			}
+		}
+		else
+		{
+			_inside = false;
+			_counter = 0;
+		}
+		
+		return true;
+	}
+
+	private BonusTime _first;
+	
+	private class BonusTime
+	{
+		public float x, y;
+		public float bonus;
+		public float r, g, b, a;
+		public int align;
+		
+		public BonusTime next;
+	}
+	
+	private void AddBonus(float x, float y, float bonus, int align)
+	{
+		BonusTime time = new BonusTime();
+		
+		time.x = x; time.y = y;
+		time.r = time.g = time.b = time.a = 1;
+		time.bonus = bonus;
+		time.align = align;
+		
+		time.next = _first;
+		
+		_first = time;
+	}
+	
+	private void UpdateBonus(float dt)
+	{
+		BonusTime prev = null;
+		BonusTime current = _first;
+		
+		while (current != null)
+		{
+			current.a -= dt / 1.5f;
+			
+			if (current.a <= 0)
+			{
+				if (prev == null)
+					_first = current.next;
+				else
+					prev.next = current.next;
+			}
+			
+			prev = current;
+			current = current.next;
+		}
+	}
+	
+	private boolean IsInside()
+	{
+		DGEVector ballPosition = _psprite.GetPosition();
+		DGEVector targetPosition = new DGEVector(_tx, _ty);
+		
+		float distance = DGEVector.distance(ballPosition, targetPosition);
+		float ballSize = 16;
+		float targetSize = 16f * _scale;
+		
+		if (targetSize > distance + ballSize)
+			return true;
+		
+		return false;
+	}
+	
+	private void Reset()
+	{
+		float x = _width / 2; 
+		float y = _height / 2;
+
+		_psprite.SetPosition(x, y);
+		
+		_scale = 3;
+		_counter = 0;
+		_bonusTime = 5;
+		_score = 0;
+
+		_timeLeft = 30;
+		
+		Reposition();
+	}
+	
+	private void Reposition()
+	{
+		_tx = _dge.Random_Float((16f * _scale), (_width - (16f * _scale)));
+		_ty = _dge.Random_Float((16f * _scale), (_height - (16f * _scale)));
+	}
+}

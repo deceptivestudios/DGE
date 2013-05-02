@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;assets&apos;&#x0D;&#x0A;- Original project: &apos;Balance&apos;&#x0D;&#x0A;- Destination element: &apos;assets&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     font1.png&#x0D;&#x0A;     font1.fnt" description="Copy files" element1="assets/font1.png" element2="assets/font1.fnt" files="2" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1336791388219" target="/DGE.tests/assets" units="0" version="1.0"/>
+</session>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.helper.DGERect"/>
+<fullyQualifiedTypeName name="android.util.FloatMath"/>
+<fullyQualifiedTypeName name="android.hardware.SensorManager"/>
+<fullyQualifiedTypeName name="org.jbox2d.dynamics.Body"/>
+<fullyQualifiedTypeName name="org.jbox2d.common.Vec2"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
+<fullyQualifiedTypeName name="android.media.MediaPlayer"/>
+<fullyQualifiedTypeName name="android.media.MediaPlayer.OnPreparedListener"/>
+<fullyQualifiedTypeName name="android.content.res.AssetFileDescriptor"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.helper.DGEPhysicsSprite"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.physics.DGEPhysicsSprite"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGEShape"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGELine"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGECircle"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGERectangle"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.entity.DGEResourceReader"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.entity.DGEEntity"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonMap"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.entity.DGEEntityEx"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.tests.entity.EntityPlayer"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.tests.entity.EntityTurret"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.tests.entity.EntityBackground"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.helper.DGEFont"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.helper.DGEColor"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.helper.DGESprite"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.helper.DGEVector"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGEPolygon"/>
+<fullyQualifiedTypeName name="java.util.Vector"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonGrid"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonCollision"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonRenderer"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGEIntersect"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonMapLayer"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.DGE"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGEShape.ShapeType"/>
+<fullyQualifiedTypeName name="org.jbox2d.collision.shapes.ShapeType"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonLayer"/>
+</qualifiedTypeNameHistroy>
