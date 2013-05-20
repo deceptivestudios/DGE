@@ -474,6 +474,8 @@ public class DGE
 				if (persistent)
 					_resources.put(filename, target);
 				
+				stream.close();
+				
 				return target;
 			}
 			catch (Exception e)
@@ -1879,12 +1881,12 @@ public class DGE
 		
 		DGETexture texture = new DGETexture();
 		
+		texture.width = bitmap.getWidth();
+		texture.height = bitmap.getHeight();
+		
 		texture.id = LoadTextureInto(0, bitmap);
 		
 		texture.filename = filename;
-		
-		texture.width = bitmap.getWidth();
-		texture.height = bitmap.getHeight();
 		
 		texture.hue = hue;
 		texture.saturation = saturation;
@@ -2044,8 +2046,22 @@ public class DGE
 		GL10 gl = _renderer.GL();
 		
 		if (textureId == 0)
-		{
 			textureId = Texture_Create();
+			
+		int width = data.getWidth();
+		int height = data.getHeight();
+		int scaledWidth = FixedTextureSize(width);
+		int scaledHeight = FixedTextureSize(height);
+
+		if (width < scaledWidth || height < scaledHeight)
+		{
+			Bitmap scaledBitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, data.getConfig());
+			
+			Canvas canvas = new Canvas(scaledBitmap);
+			canvas.drawBitmap(data, 0, 0, new Paint(Paint.FILTER_BITMAP_FLAG));
+			data.recycle();
+			
+			data = scaledBitmap;
 		}
 		
 		IntBuffer prevTexture = IntBuffer.allocate(1);
@@ -2080,16 +2096,6 @@ public class DGE
 
 			int width = bitmap.getWidth();
 			int height = bitmap.getHeight();
-			int scaledWidth = FixedTextureSize(width);
-			int scaledHeight = FixedTextureSize(height);
-
-			if (width != scaledWidth || height != scaledHeight)
-			{
-				Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, scaledWidth, scaledHeight);
-				bitmap.recycle();
-				
-				bitmap = scaledBitmap;
-			}
 			
 			// make adjustments if required
 			if (hue != 0f || saturation != 0f || brightness != 0f)

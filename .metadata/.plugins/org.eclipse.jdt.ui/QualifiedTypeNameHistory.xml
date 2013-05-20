@@ -35,8 +35,8 @@
 <fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonRenderer"/>
 <fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGEIntersect"/>
 <fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonMapLayer"/>
-<fullyQualifiedTypeName name="com.deceptivestudios.engine.DGE"/>
 <fullyQualifiedTypeName name="com.deceptivestudios.engine.geometry.DGEShape.ShapeType"/>
 <fullyQualifiedTypeName name="org.jbox2d.collision.shapes.ShapeType"/>
 <fullyQualifiedTypeName name="com.deceptivestudios.engine.polygon.DGEPolygonLayer"/>
+<fullyQualifiedTypeName name="com.deceptivestudios.engine.DGE"/>
 </qualifiedTypeNameHistroy>
